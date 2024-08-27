@@ -6,4 +6,10 @@ import { menubarReducers } from "../aplicationFeatures/menubarSlice";
 export const store = configureStore({
 	reducer: menubarReducers,
 	// reducer: apiContentReducers,
+
+	// combine multiple reducers
+	// reducer: {
+	// 	menubar : menubarReducers,
+	// 	apiContent : apiContentReducers,
+	// },
 });

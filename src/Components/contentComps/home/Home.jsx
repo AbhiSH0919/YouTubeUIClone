@@ -39,8 +39,7 @@ export default function Home() {
 			setPageInfo(data?.pageInfo);
 			// console.log(nextPageToken, pageInfo);
 		} catch (error) {
-			setVideos([..."api request limit over"]);
-			console.log(videos);
+			// console.log(videos);
 			console.error("Error fetching data", error);
 		}
 	};

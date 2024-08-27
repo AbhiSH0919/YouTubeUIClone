@@ -131,6 +131,7 @@ const SignInBtn = function () {
 
 const Thumbnails = function ({ video }) {
 	const menubarFull = useSelector((state) => state.menubarFull);
+	// if (!video) return;
 	const { id, snippet } = video;
 
 	const {

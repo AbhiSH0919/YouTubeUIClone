@@ -16,7 +16,10 @@ export default function Menubar() {
 
 	return (
 		<div
-			className="menubar-container bg-info flex-shrink-0 flex-grow-0 h-auto"
+			// className="menubar-container bg-info flex-shrink-0 flex-grow-0 h-auto"
+			className={`menubar-container bg-info flex-shrink-0 flex-grow-0 h-auto ${
+				menubarFull ? null : "menubar-small"
+			}`}
 			// style={
 			// 	{
 			// 		// width: "290px",

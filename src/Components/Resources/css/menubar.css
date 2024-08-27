@@ -1,0 +1,57 @@
+/* =============MENUBAR-CONTAINER============= */
+.menubar-container {
+	min-height: calc(100vh - 58px);
+	width: 260px;
+}
+
+.menubar-inner-container {
+	height: calc(100vh - 58px);
+	max-width: 240px;
+}
+
+.menubar-item-link.active {
+	background-color: #555555d0 !important;
+}
+
+.menubar-item-link:hover {
+	background-color: #555555 !important;
+	background-color: #555555d0 !important;
+}
+
+.menubar-item-link.active:hover {
+	background-color: #3f3f3f !important;
+}
+
+.menubar-inner-container::-webkit-scrollbar {
+	width: 7px;
+}
+
+.menubar-inner-container:hover::-webkit-scrollbar-thumb {
+	background-color: #eeeeee7b;
+}
+
+/* =============MENUBAR-CONTAINER-SMALL============= */
+.menubar-small.menubar-container {
+	width: 80px;
+}
+.menubar-small .menubar-inner-container {
+	max-width: 70px;
+	padding-top: 0.5rem;
+}
+
+.menubar-small .menubar-inner-container::-webkit-scrollbar {
+	width: 0px;
+}
+
+.menubar-small .menubar-items-boxs {
+	padding: 0rem 0.3rem !important;
+	border: none !important;
+}
+
+.menubar-small .menubar-item-link {
+	flex-direction: column;
+	row-gap: 0.2rem;
+	font-size: 0.6rem;
+	padding: 1rem 0;
+	text-align: center;
+}

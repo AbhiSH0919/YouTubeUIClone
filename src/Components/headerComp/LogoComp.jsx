@@ -20,8 +20,8 @@ export default function LogoComp() {
 					dispatch(menubarSwitch(!menubarFull));
 
 					// ===============================
-					const menubarContainer = document.querySelector(".menubar-container");
-					menubarContainer?.classList.toggle("menubar-small");
+					// const menubarContainer = document.querySelector(".menubar-container");
+					// menubarContainer?.classList.toggle("menubar-small");
 				}}
 			>
 				<FiMenu />

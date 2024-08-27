@@ -1,0 +1,64 @@
+.hover-dark-light {
+	box-shadow: none !important;
+	transition: all 0.2s;
+}
+
+.hover-dark-light.active {
+	background-color: #555555 !important;
+}
+
+.hover-dark-light:hover {
+	background-color: #555555d0 !important;
+	transition: all 0.3s !important;
+	color: #ff0000;
+}
+
+.border-primary-small {
+	border: 1px solid #444 !important;
+}
+
+.element-focus-border:focus {
+	transition: all 0.3s;
+	border: 1px solid #1c62b9 !important;
+}
+
+.gridHome {
+	display: grid;
+	grid-template-columns:
+		[menubar-start] repeat(4, minmax(10px, 50px)) 1fr repeat(
+			4,
+			minmax(5px, 50px)
+		)
+		[endcols-end];
+}
+
+.headerPlace {
+	grid-column: menubar-start / endcols-end;
+}
+
+.grid-auto-cols {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, 50px);
+	grid-template-columns: 1fr;
+	grid-template-rows: min-content;
+	grid-auto-rows: auto;
+}
+
+.grid-cols--3 {
+	display: grid !important;
+	grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+	grid-template-columns: repeat(3, minmax(20rem, 1fr));
+	/* grid-template-rows: repeat(auto-fit, minmax(min-content, 22.5rem)); */
+}
+
+.show-content {
+	opacity: 1;
+	visibility: visible;
+	transition: all 0.4s;
+}
+
+.hide-content {
+	opacity: 0;
+	visibility: hidden;
+	transition: all 0.4s;
+}
