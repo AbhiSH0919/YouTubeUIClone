@@ -2,10 +2,17 @@ import React, { useEffect, useMemo, useState } from "react";
 import PropTypes from "prop-types";
 
 // ==============================REACT-REDUX-TOOLKIT===========================
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import {
+	funMenubarSwitch,
+	funMenubarFlowShow,
+	funMenubarFlowHide,
+	funIsVideoWatching,
+} from "../Components/aplicationFeatures/menubarSlice";
 
 // ==============================REACT-ROUTER-DOM============================
 import { NavLink } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 // ==============================ICONS=======================================
 import { PiUserCircle } from "react-icons/pi";
@@ -102,10 +109,19 @@ const MenuListContainer = function ({ tabsArr }) {
 
 // ==============================MenuListItem================================
 const MenuListItem = function ({ tabIcon, tabName }) {
+	const dispatch = useDispatch();
+	// 	==================Higher order function create======================
+	const utilMenubarHide = function () {
+		dispatch(funIsVideoWatching(false));
+		dispatch(funMenubarFlowHide(false));
+		dispatch(funMenubarFlowShow(false));
+	};
+
 	return (
 		<li className="nav-item w-100">
 			<NavLink
 				to={`/${tabName === "Home" ? "" : tabName}`}
+				onClick={utilMenubarHide}
 				className="menubar-item-link hover-dark-ligh rounded-3 nav-link text-white d-flex align-items-center column-gap-4"
 			>
 				<span className="fs-4 d-flex justify-content-center align-items-center">
@@ -131,15 +147,16 @@ const SignInBtn = function () {
 
 const Thumbnails = function ({ video }) {
 	const menubarFull = useSelector((state) => state.menubarFull);
+	const dispatch = useDispatch();
 	// if (!video) return;
-	const { id, snippet } = video;
+	const { id: videoId, snippet } = video;
 
 	const {
 		categoryId,
 		channelId,
 		channelTitle,
 		description,
-		title,
+		title: videoTitle,
 		thumbnails,
 		publishedAt,
 		tags,
@@ -175,24 +192,32 @@ const Thumbnails = function ({ video }) {
 		fetchChannelData(CHANNEL_URL);
 	}, []);
 
-	// 	=====================================================
+	// 	==================Higher order function create======================
+	const utilMenubarHide = function () {
+		dispatch(funIsVideoWatching(true));
+		dispatch(funMenubarFlowHide(true));
+		dispatch(funMenubarFlowShow(false));
+		dispatch(funMenubarSwitch(true));
+	};
 
 	return (
 		<div className="thumbnail-container bg-warning">
 			<figure className="d-flex flex-column gap-3 m-0">
 				<div
-					className="thumbnail-img-box w-100 rounded-4  overflow-hidden"
+					className="thumbnail-img-box w-100 rounded-4  overflow-hidden loading-animation"
 					style={menubarFull ? { height: "11rem" } : { height: "13rem" }}
 				>
-					<img
-						src={thumbnails?.standard?.url}
-						className="d-block w-100 h-100 object-fit-cover"
-						alt="Thumbnails"
-					/>
+					<NavLink to={`/watch?v=${videoId}`} onClick={utilMenubarHide}>
+						<img
+							src={thumbnails?.standard?.url}
+							className="d-block w-100 h-100 object-fit-cover"
+							alt="Thumbnails"
+						/>
+					</NavLink>
 				</div>
 
 				<figcaption className="thumbnail-text-box figure-caption d-flex gap-2">
-					<a className="channel-img-box rounded-circle" href="">
+					<a href="" className="channel-img-box rounded-circle">
 						<img
 							className="channel-img d-block w-100 h-100 object-fit-cover rounded-circle"
 							src={channelSnippet?.thumbnails?.medium?.url}
@@ -201,9 +226,13 @@ const Thumbnails = function ({ video }) {
 					</a>
 
 					<div className="thumnail-details w-100 bg-danger">
-						<h5 className="card-title text-light fs-6 h-50 bg-black lh-base overflow-hidden">
-							{formatTitle(title)}
-						</h5>
+						<NavLink
+							to={`/watch?v=${videoId}`}
+							onClick={utilMenubarHide}
+							className="card-title text-light fs-6 h-50 text-decoration-none d-block bg-black lh-base overflow-hidden"
+						>
+							{formatTitle(videoTitle)}
+						</NavLink>
 						<div className="card-text text-body-secondary">
 							<p className="mb-0 text-capitalize">{channelTitle}</p>
 							<div className="d-flex align-items-center gap-1">

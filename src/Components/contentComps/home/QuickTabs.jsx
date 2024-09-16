@@ -60,7 +60,10 @@ export default function QuickTabs() {
 			>
 				{quickTabs.map((tab, i) => {
 					return (
-						<button key={i} className="btn btn-secondary py-1 flex-shrink-0">
+						<button
+							key={i}
+							className="btn btn-secondary py-1 flex-shrink-0 loading-animation"
+						>
 							{tab}
 						</button>
 					);

@@ -7,6 +7,7 @@
 .menubar-inner-container {
 	height: calc(100vh - 58px);
 	max-width: 240px;
+	z-index: 9999;
 }
 
 .menubar-item-link.active {
@@ -54,4 +55,15 @@
 	font-size: 0.6rem;
 	padding: 1rem 0;
 	text-align: center;
+}
+
+/* =============MENUBAR-CONTAINER-FLOW============= */
+.menubar-container.menubar-flow-show {
+	position: absolute;
+}
+
+.menubar-container.menubar-flow-hide {
+	width: 0;
+	visibility: hidden;
+	opacity: 0;
 }

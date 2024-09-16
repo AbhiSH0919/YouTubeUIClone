@@ -2,11 +2,12 @@ import React, { useEffect, useState } from "react";
 import { Thumbnails } from "../../../utility/Utility";
 import QuickTabs from "./QuickTabs";
 import { JSON_DATA } from "../../../constants/constants";
+import { useSelector } from "react-redux";
 
 export default function Home() {
 	const API_KEY = "AIzaSyDa_GO4m-VwQlA8fjp6uf7npNpYmHsGQk8";
 
-	const API_URL = `https://www.googleapis.com/youtube/v3/videos?part=snippet&chart=mostPopular&regionCode=IN&maxResults=2&key=${API_KEY}`;
+	const API_URL = `https://www.googleapis.com/youtube/v3/videos?part=snippet&chart=mostPopular&regionCode=IN&maxResults=8&key=${API_KEY}`;
 
 	// https://www.googleapis.com/youtube/v3/videos?part=snippet&chart=mostPopular&regionCode=IN&maxResults=12&key=AIzaSyDa_GO4m-VwQlA8fjp6uf7npNpYmHsGQk8
 
@@ -18,6 +19,8 @@ export default function Home() {
 	const [videos, setVideos] = useState([]);
 	const [pageInfo, setPageInfo] = useState({});
 	const [channelData, setChannelData] = useState({});
+
+	const isVideoWatching = useSelector((state) => state.isVideoWatching);
 
 	const fetchData = async (api) => {
 		try {
@@ -54,7 +57,11 @@ export default function Home() {
 		<div className="home-container gridHome position-relative w-100 row-gap-4">
 			<QuickTabs />
 
-			<div className="headerPlace grid-cols--3 column-gap-3 row-gap-5 px-2 pb-4 bg-danger-subtle">
+			<div
+				className={`headerPlace column-gap-3 row-gap-5 px-2 pb-4 bg-danger-subtle ${
+					isVideoWatching ? "grid-cols--auto" : "grid-cols--3"
+				}`}
+			>
 				{videos?.map((video) => {
 					return <Thumbnails key={video.id} video={video} />;
 				})}

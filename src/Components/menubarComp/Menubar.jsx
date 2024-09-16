@@ -13,12 +13,17 @@ export default function Menubar() {
 	const signed = false;
 	// const menuWidth = useSelector((state) => state.menuWidth);
 	const menubarFull = useSelector((state) => state.menubarFull);
+	const menubarFlowShow = useSelector((state) => state.menubarFlowShow);
+	const menubarFlowHide = useSelector((state) => state.menubarFlowHide);
 
 	return (
 		<div
 			// className="menubar-container bg-info flex-shrink-0 flex-grow-0 h-auto"
 			className={`menubar-container bg-info flex-shrink-0 flex-grow-0 h-auto ${
-				menubarFull ? null : "menubar-small"
+				menubarFull ? "" : "menubar-small"
+			}
+			${menubarFlowShow ? "menubar-flow-show" : ""} ${
+				menubarFlowHide ? "menubar-flow-hide" : ""
 			}`}
 			// style={
 			// 	{

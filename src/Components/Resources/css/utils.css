@@ -51,6 +51,11 @@
 	/* grid-template-rows: repeat(auto-fit, minmax(min-content, 22.5rem)); */
 }
 
+.grid-cols--auto {
+	display: grid !important;
+	grid-template-columns: repeat(auto-fill, minmax(19rem, 1fr));
+}
+
 .show-content {
 	opacity: 1;
 	visibility: visible;
@@ -61,4 +66,24 @@
 	opacity: 0;
 	visibility: hidden;
 	transition: all 0.4s;
+}
+
+.loading-animation {
+	animation: loading 1s linear infinite forwards;
+	background: linear-gradient(to right, #f0f8ff 2%, #e7ebf0 18%, #e0e7ee 33%);
+	background: linear-gradient(to right, #414141 2%, #2b2a2a 18%, #302f2f 33%);
+	color: transparent !important;
+	/*-webkit-background-clip: text;*/
+	background-size: 30rem;
+	border: none !important;
+}
+
+@keyframes loading {
+	0% {
+		background-position: -15rem;
+	}
+
+	100% {
+		background-position: 15rem;
+	}
 }
