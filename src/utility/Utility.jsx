@@ -28,25 +28,33 @@ const formatDate = function (date, locale) {
 	const calcDaysPassed = (oldDate, newDate) =>
 		Math.round(Math.abs(newDate - oldDate) / (1000 * 60 * 60 * 24));
 
-	const daysPassed = calcDaysPassed(date, new Date());
+	const daysPassed = calcDaysPassed(new Date(date), new Date());
 
 	if (daysPassed === 0) return "Today";
 	if (daysPassed === 1) return "Yesterday";
-	if (daysPassed <= 7) return `${daysPassed} days ago`;
+	if (daysPassed <= 7) return `${daysPassed} Days ago`;
+	if (daysPassed <= 28) return `${daysPassed / 7} Weeks ago`;
 	else {
-		return new Intl.DateTimeFormat(locale, {
+		// return new Intl.DateTimeFormat(locale, {
+		// 	year: "numeric",
+		// 	month: "short",
+		// 	day: "2-digit",
+		// }).format(new Date(date));
+
+		const newDate = new Date(date);
+		return newDate.toLocaleDateString("US", {
 			year: "numeric",
-			month: "2-digit",
+			month: "short",
 			day: "2-digit",
-		}).format(date);
+		});
 	}
 };
 
 // ==============================NUMBER-FORMATER=========================
 const formatNumber = function (num) {
 	if (num <= 999) return num;
-	if (num <= 999999) return Math.round(num / 1000) + "K";
-	if (num > 999999) return Math.round(num / 1000000) + "M";
+	if (num <= 999999) return Math.round(num / 1000) + "K ";
+	if (num > 999999) return Math.round(num / 1000000) + "M ";
 };
 
 // ==============================VIDEOS-TITLE-FORMATER=========================
@@ -257,6 +265,9 @@ const Thumbnails = function ({ video }) {
 // ======================================================================= //
 // ==============================COMPONENTS-EXPORTS======================= //
 export {
+	formatDate,
+	formatNumber,
+	formatTitle,
 	ThemeChange,
 	MenuListContainer,
 	MenuListItem,
