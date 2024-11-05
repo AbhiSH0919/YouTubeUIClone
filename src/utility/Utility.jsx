@@ -4,10 +4,15 @@ import PropTypes from "prop-types";
 // ==============================REACT-REDUX-TOOLKIT===========================
 import { useDispatch, useSelector } from "react-redux";
 import {
-	funMenubarSwitch,
-	funMenubarFlowShow,
-	funMenubarFlowHide,
-	funIsVideoWatching,
+	// funMenubarSwitch,
+	// funMenubarFlowShow,
+	// funMenubarFlowHide,
+	// funIsVideoWatching,
+
+	funMenubarRelativeState,
+	funMenubarAbsoluteState,
+	funSwitchMenubar,
+	funMenubarSwitchHandler,
 } from "../Components/aplicationFeatures/menubarSlice";
 
 // ==============================REACT-ROUTER-DOM============================
@@ -20,7 +25,6 @@ import { TbDotsVertical } from "react-icons/tb";
 
 // ==============================CONSTANTS=====================================
 import { API_KEY } from "../constants/constants";
-import { RxAvatar } from "react-icons/rx";
 
 // ==============================JavaScript-FUNCTIONS==========================
 // ==============================DATE-FORMATER=================================
@@ -119,17 +123,17 @@ const MenuListContainer = function ({ tabsArr }) {
 const MenuListItem = function ({ tabIcon, tabName }) {
 	const dispatch = useDispatch();
 	// 	==================Higher order function create======================
-	const utilMenubarHide = function () {
-		dispatch(funIsVideoWatching(false));
-		dispatch(funMenubarFlowHide(false));
-		dispatch(funMenubarFlowShow(false));
-	};
+	// const utilMenubarHide = function () {
+	// 	dispatch(funIsVideoWatching(false));
+	// 	dispatch(funMenubarFlowHide(false));
+	// 	dispatch(funMenubarFlowShow(false));
+	// };
 
 	return (
 		<li className="nav-item w-100">
 			<NavLink
 				to={`/${tabName === "Home" ? "" : tabName}`}
-				onClick={utilMenubarHide}
+				onClick={() => dispatch(funMenubarSwitchHandler(true))}
 				className="menubar-item-link hover-dark-ligh rounded-3 nav-link text-white d-flex align-items-center column-gap-4"
 			>
 				<span className="fs-4 d-flex justify-content-center align-items-center">
@@ -154,7 +158,11 @@ const SignInBtn = function () {
 // ======================================================================= //
 
 const Thumbnails = function ({ video }) {
-	const menubarFull = useSelector((state) => state.menubarFull);
+	// const menubarFull = useSelector((state) => state.menubarFull);
+
+	const { menubarFull, isRelativeState, isAbsoluteState } = useSelector(
+		(state) => state.menubar
+	);
 	const dispatch = useDispatch();
 	// if (!video) return;
 	const { id: videoId, snippet } = video;
@@ -201,21 +209,37 @@ const Thumbnails = function ({ video }) {
 	}, []);
 
 	// 	==================Higher order function create======================
-	const utilMenubarHide = function () {
-		dispatch(funIsVideoWatching(true));
-		dispatch(funMenubarFlowHide(true));
-		dispatch(funMenubarFlowShow(false));
-		dispatch(funMenubarSwitch(true));
-	};
+	// const utilMenubarHide = function () {
+	// dispatch(funIsVideoWatching(true));
+	// dispatch(funMenubarFlowHide(true));
+	// dispatch(funMenubarFlowShow(false));
+	// dispatch(funMenubarSwitch(true));
+
+	// dispatch(funMenubarRelativeState(false));
+	// dispatch(funMenubarAbsoluteState(true));
+	// dispatch(funSwitchMenubar(false));
+	// };
 
 	return (
 		<div className="thumbnail-container bg-warning">
 			<figure className="d-flex flex-column gap-3 m-0">
 				<div
-					className="thumbnail-img-box w-100 rounded-4  overflow-hidden loading-animation"
-					style={menubarFull ? { height: "11rem" } : { height: "13rem" }}
+					// className="thumbnail-img-box w-100 rounded-4  overflow-hidden"
+					// style={
+					// 	isRelativeState && menubarFull
+					// 		? { height: "11rem" }
+					// 		: { height: "13rem" }
+					// }
+
+					className={`thumbnail-img-box w-100 rounded-4  overflow-hidden ${
+						isRelativeState && menubarFull ? "height-small" : "height-full"
+					}`}
 				>
-					<NavLink to={`/watch?v=${videoId}`} onClick={utilMenubarHide}>
+					<NavLink
+						to={`/watch?v=${videoId}`}
+						className={`loading-animation`}
+						// onClick={utilMenubarHide}
+					>
 						<img
 							src={thumbnails?.standard?.url}
 							className="d-block w-100 h-100 object-fit-cover"
@@ -225,7 +249,10 @@ const Thumbnails = function ({ video }) {
 				</div>
 
 				<figcaption className="thumbnail-text-box figure-caption d-flex gap-2">
-					<a href="" className="channel-img-box rounded-circle">
+					<a
+						href=""
+						className="channel-img-box rounded-circle loading-animation"
+					>
 						<img
 							className="channel-img d-block w-100 h-100 object-fit-cover rounded-circle"
 							src={channelSnippet?.thumbnails?.medium?.url}
@@ -236,12 +263,12 @@ const Thumbnails = function ({ video }) {
 					<div className="thumnail-details w-100 bg-danger">
 						<NavLink
 							to={`/watch?v=${videoId}`}
-							onClick={utilMenubarHide}
-							className="card-title text-light fs-6 h-50 text-decoration-none d-block bg-black lh-base overflow-hidden"
+							// onClick={utilMenubarHide}
+							className="card-title text-light fs-6 h-50 text-decoration-none d-block bg-black lh-base overflow-hidden loading-animation"
 						>
 							{formatTitle(videoTitle)}
 						</NavLink>
-						<div className="card-text text-body-secondary">
+						<div className="card-text text-body-secondary loading-animation">
 							<p className="mb-0 text-capitalize">{channelTitle}</p>
 							<div className="d-flex align-items-center gap-1">
 								<span className="me-2">

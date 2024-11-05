@@ -16,6 +16,12 @@ import {
 	formatNumber,
 	formatTitle,
 } from "../../../utility/Utility";
+import { useDispatch } from "react-redux";
+import {
+	funMenubarAbsoluteState,
+	funSwitchMenubar,
+	funMenubarSwitchHandler,
+} from "../../aplicationFeatures/menubarSlice";
 
 export default function Watch() {
 	const [searchParams] = useSearchParams();
@@ -25,8 +31,18 @@ export default function Watch() {
 	const [videoChannelId, setVideoChannelId] = useState(null);
 	const [videoDesc, setVideoDesc] = useState(null);
 	const [descFull, setDescFull] = useState(false);
+	const [commentsData, setCommentsData] = useState(null);
+	const dispatch = useDispatch();
 
 	const VIDEO_URL = `https://youtube.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&id=${videoId}&key=${API_KEY}`;
+
+	useEffect(() => {
+		if (videoId) {
+			// dispatch(funSwitchMenubar(false));
+			// dispatch(funMenubarAbsoluteState(true));
+			dispatch(funMenubarSwitchHandler(false));
+		}
+	}, [videoId]);
 
 	const fetchSingleVideoData = async (api) => {
 		try {
@@ -53,6 +69,17 @@ export default function Watch() {
 		}
 	};
 
+	const fetchSingleVideoCommentsData = async (api) => {
+		try {
+			const response = await fetch(api);
+			const data = await response.json();
+
+			setCommentsData(data?.items);
+		} catch (error) {
+			console.log("comments fetch err", error);
+		}
+	};
+
 	useEffect(() => {
 		fetchSingleVideoData(VIDEO_URL);
 	}, []);
@@ -60,8 +87,13 @@ export default function Watch() {
 	useMemo(() => {
 		const CHANNEL_URL = `https://youtube.googleapis.com/youtube/v3/channels?part=snippet%2CcontentDetails%2Cstatistics&id=${videoChannelId}&key=${API_KEY}`;
 
+		const COMMENT_URL = `https://youtube.googleapis.com/youtube/v3/commentThreads?part=snippet%2Creplies&videoId=${videoId}&key=${API_KEY}`;
+
 		if (!videoChannelId) return; // err handle
 		fetchSingleVideoChannelData(CHANNEL_URL);
+
+		if (!videoId) return;
+		fetchSingleVideoCommentsData(COMMENT_URL);
 	}, [videoChannelId]);
 
 	const funFormatDesc = function (desc) {
@@ -76,8 +108,8 @@ export default function Watch() {
 					? `<a class="text-decoration-none" href=/hashtag/${item?.slice(
 							1
 					  )}>${item}</a>`
-					: item?.startsWith("http")
-					? `<a class="bg-secondary bg-opacity-25 text-light py-1 px-2 rounded-5" href="${item}">${item}</a>`
+					: item?.includes("http")
+					? `<a class="bg-secondary bg-opacity-25 text-light py-1 px-2 rounded-5" href="${item}" target="_blank">${item}</a>`
 					: // : item === ""
 					  // ? ""
 					  // item === `<br>`
@@ -92,6 +124,7 @@ export default function Watch() {
 
 		const str = arr?.slice()?.join(`<br>`);
 
+		return str;
 		return descFull ? str : str?.slice(0, 172);
 	};
 
@@ -237,6 +270,7 @@ export default function Watch() {
 							} d-flex flex-column gap-5`}
 						>
 							<div
+								aria-label="youtube description"
 								className="description-box--1"
 								dangerouslySetInnerHTML={{
 									__html: `${funFormatDesc(videoDesc)}`,

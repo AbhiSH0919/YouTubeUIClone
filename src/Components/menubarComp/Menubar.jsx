@@ -1,5 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
+import { useSearchParams } from "react-router-dom";
 
 // ==============================COMPONENTS==================================
 import MainTabs from "./MainTabs";
@@ -12,19 +13,47 @@ import FooterTab from "./FooterTab";
 export default function Menubar() {
 	const signed = false;
 	// const menuWidth = useSelector((state) => state.menuWidth);
-	const menubarFull = useSelector((state) => state.menubarFull);
-	const menubarFlowShow = useSelector((state) => state.menubarFlowShow);
-	const menubarFlowHide = useSelector((state) => state.menubarFlowHide);
+	// const menubarFull = useSelector((state) => state.menubarFull);
+	// const menubarFlowShow = useSelector((state) => state.menubarFlowShow);
+	// const menubarFlowHide = useSelector((state) => state.menubarFlowHide);
+
+	// const {
+	// 	menubarFull,
+	// 	menubarFlowShow,
+	// 	menubarFlowHide,
+	// 	isVideoWatching,
+	// 	menuWidth,
+	// } = useSelector((state) => state.menubar);
+
+	const { menubarFull, isRelativeState, isAbsoluteState } = useSelector(
+		(state) => state.menubar
+	);
+
+	const [searchParams, setSearchParams] = useSearchParams();
+	const searchedValue = searchParams?.get("v");
 
 	return (
 		<div
 			// className="menubar-container bg-info flex-shrink-0 flex-grow-0 h-auto"
 			className={`menubar-container bg-info flex-shrink-0 flex-grow-0 h-auto ${
-				menubarFull ? "" : "menubar-small"
-			}
-			${menubarFlowShow ? "menubar-flow-show" : ""} ${
-				menubarFlowHide ? "menubar-flow-hide" : ""
+				!searchedValue && isRelativeState
+					? menubarFull
+						? "relativeMenubarFull"
+						: "relativeMenubarSmall"
+					: searchedValue || isAbsoluteState
+					? menubarFull
+						? "absoluteMenubarShow"
+						: "absoluteMenubarHide"
+					: "relativeMenubarFull"
 			}`}
+
+			// className={`menubar-container bg-info flex-shrink-0 flex-grow-0 h-auto ${
+			// 	menubarFull ? "" : "menubar-small"
+			// }
+			// ${menubarFlowShow ? "menubar-flow-show" : ""} ${
+			// 	menubarFlowHide ? "menubar-flow-hide" : ""
+			// }`}
+
 			// style={
 			// 	{
 			// 		// width: "290px",
@@ -59,3 +88,5 @@ export default function Menubar() {
 		</div>
 	);
 }
+
+// isRelativeState ? MenuSmallLarge : isAbsoluteState ? MenubarSmallLarge

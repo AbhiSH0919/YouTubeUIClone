@@ -32,7 +32,7 @@
 }
 
 /* =============MENUBAR-CONTAINER-SMALL============= */
-.menubar-small.menubar-container {
+/* .menubar-small.menubar-container {
 	width: 80px;
 }
 .menubar-small .menubar-inner-container {
@@ -55,14 +55,73 @@
 	font-size: 0.6rem;
 	padding: 1rem 0;
 	text-align: center;
-}
+} */
 
 /* =============MENUBAR-CONTAINER-FLOW============= */
-.menubar-container.menubar-flow-show {
+/* .menubar-container.menubar-flow-show {
 	position: absolute;
 }
 
 .menubar-container.menubar-flow-hide {
+	width: 0;
+	visibility: hidden;
+	opacity: 0;
+} */
+
+/* ========================Relative Menubar Full======================== */
+.relativeMenubarFull.menubar-container {
+	width: 260px;
+}
+
+.relativeMenubarFull
+	~ section
+	.home-container
+	.thumbnail-container
+	.thumbnail-img-box.height-small {
+	height: 11rem;
+}
+
+.relativeMenubarFull
+	~ section
+	.home-container
+	.thumbnail-container
+	.thumbnail-img-box.height-full {
+	height: 13rem;
+}
+
+/* ========================Relative Menubar Small======================= */
+.relativeMenubarSmall.menubar-container {
+	width: 80px;
+}
+
+.relativeMenubarSmall .menubar-inner-container {
+	max-width: 70px;
+	padding-top: 0.5rem;
+}
+
+.relativeMenubarSmall .menubar-inner-container::-webkit-scrollbar {
+	width: 0px;
+}
+
+.relativeMenubarSmall .menubar-items-boxs {
+	padding: 0rem 0.3rem !important;
+	border: none !important;
+}
+
+.relativeMenubarSmall .menubar-item-link {
+	flex-direction: column;
+	row-gap: 0.2rem;
+	font-size: 0.6rem;
+	padding: 1rem 0;
+	text-align: center;
+}
+
+/* ========================Absolute Menubar======================= */
+.absoluteMenubarShow.menubar-container {
+	position: absolute;
+}
+
+.absoluteMenubarHide.menubar-container {
 	width: 0;
 	visibility: hidden;
 	opacity: 0;

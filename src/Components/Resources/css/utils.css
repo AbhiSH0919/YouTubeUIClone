@@ -69,13 +69,29 @@
 }
 
 .loading-animation {
-	animation: loading 1s linear infinite forwards;
-	background: linear-gradient(to right, #f0f8ff 2%, #e7ebf0 18%, #e0e7ee 33%);
-	background: linear-gradient(to right, #414141 2%, #2b2a2a 18%, #302f2f 33%);
 	color: transparent !important;
-	/*-webkit-background-clip: text;*/
-	background-size: 30rem;
 	border: none !important;
+	position: relative;
+}
+
+.loading-animation::after,
+.loading-animation::before {
+	display: block;
+	content: "";
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 1;
+	background-color: #222;
+}
+
+.loading-animation::after {
+	animation: loading 1.5s linear infinite;
+	background: linear-gradient(to right, #f0f8ff 2%, #e7ebf0 18%, #e0e7ee 33%);
+	background: linear-gradient(to right, #333333d7 2%, #333 18%, #333 33%);
+	background-size: 30rem;
 }
 
 @keyframes loading {
