@@ -8,7 +8,15 @@ import { IoMdNotificationsOutline } from "react-icons/io";
 // ==============================COMPONENTS==================================
 import { SignInBtn } from "../../utility/Utility";
 
+// ==============================OPTIONS-COMPONENT=============================
+/**
+ * Options component: This component displays the create new live video button, all notification button and also showing user login or signup status.
+ * @param {null} null
+ *
+ * @returns {JSX.Element} live button, notification button and profile button.
+ */
 export default function Options() {
+	// ====================JSX==============================================
 	return (
 		<div className="d-flex align-items-center gap-1">
 			<button className="btn fs-4 p-2 d-flex align-items-center border-0 rounded-circle text-bg-dar hover-dark-light">

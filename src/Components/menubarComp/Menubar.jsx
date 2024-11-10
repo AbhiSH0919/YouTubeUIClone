@@ -1,6 +1,4 @@
 import React from "react";
-import { useSelector } from "react-redux";
-import { useSearchParams } from "react-router-dom";
 
 // ==============================COMPONENTS==================================
 import MainTabs from "./MainTabs";
@@ -10,31 +8,34 @@ import MoreFromYouTubeTabs from "./MoreFromYouTubeTabs";
 import ForUserTabs from "./ForUserTabs";
 import FooterTab from "./FooterTab";
 
+// ==============================REACT-REDUX-TOOLKIT===========================
+import { useSelector } from "react-redux";
+
+// ==============================REACT-ROUTER-DOM==============================
+import { useSearchParams } from "react-router-dom";
+
+// ==============================MENUBAR-COMPONENT=============================
+/**
+ * Menubar component: Displays the all menubar tabs in this component and other relevant information.
+ * which includes the main tabs, sign in tab, explore tabs, more from YouTube tabs, for user tabs, and footer tab.
+ *
+ * @param {null} null
+ * @returns {JSX.Element} Menubar UI
+ */
 export default function Menubar() {
+	// ====================STATES===========================================
 	const signed = false;
-	// const menuWidth = useSelector((state) => state.menuWidth);
-	// const menubarFull = useSelector((state) => state.menubarFull);
-	// const menubarFlowShow = useSelector((state) => state.menubarFlowShow);
-	// const menubarFlowHide = useSelector((state) => state.menubarFlowHide);
+	const [searchParams, setSearchParams] = useSearchParams();
+	const searchedValue = searchParams?.get("v");
 
-	// const {
-	// 	menubarFull,
-	// 	menubarFlowShow,
-	// 	menubarFlowHide,
-	// 	isVideoWatching,
-	// 	menuWidth,
-	// } = useSelector((state) => state.menubar);
-
+	// ====================STORE-DATA-GET-&-SET=============================
 	const { menubarFull, isRelativeState, isAbsoluteState } = useSelector(
 		(state) => state.menubar
 	);
 
-	const [searchParams, setSearchParams] = useSearchParams();
-	const searchedValue = searchParams?.get("v");
-
+	// ====================JSX==============================================
 	return (
 		<div
-			// className="menubar-container bg-info flex-shrink-0 flex-grow-0 h-auto"
 			className={`menubar-container bg-info flex-shrink-0 flex-grow-0 h-auto ${
 				!searchedValue && isRelativeState
 					? menubarFull
@@ -46,33 +47,8 @@ export default function Menubar() {
 						: "absoluteMenubarHide"
 					: "relativeMenubarFull"
 			}`}
-
-			// className={`menubar-container bg-info flex-shrink-0 flex-grow-0 h-auto ${
-			// 	menubarFull ? "" : "menubar-small"
-			// }
-			// ${menubarFlowShow ? "menubar-flow-show" : ""} ${
-			// 	menubarFlowHide ? "menubar-flow-hide" : ""
-			// }`}
-
-			// style={
-			// 	{
-			// 		// width: "290px",
-			// 		// width: `${menuWidth + 20}px`,
-			// 		// minHeight: "calc(100vh - 56px)",
-			// 	}
-			// }
 		>
-			<div
-				className="menubar-inner-container d-flex flex-column  text-white position-fixed overflow-y-scroll w-100 bg-danger"
-				// style={
-				// 	{
-				// 		// maxWidth: "250px",
-				// 		// maxWidth: `${menuWidth}px`,
-				// 		// height: "calc(100vh - 56px)",
-				// 		// top: "56px",
-				// 	}
-				// }
-			>
+			<div className="menubar-inner-container d-flex flex-column  text-white position-fixed overflow-y-scroll w-100 bg-danger">
 				<MainTabs />
 
 				{menubarFull ? (

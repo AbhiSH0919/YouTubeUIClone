@@ -16,7 +16,9 @@ import {
 } from "react-router-dom";
 // import { Route, BrowserRouter as Router, Routes } from "react-router";
 
+// ==============================App-COMPONENT================================
 function App() {
+	// ====================JSX==============================================
 	return (
 		<Router>
 			<Header />

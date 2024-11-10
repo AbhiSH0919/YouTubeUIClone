@@ -1,82 +1,37 @@
-import React, { useEffect } from "react";
-import { useSearchParams } from "react-router-dom";
-
-// ==============================REDUX-TOOLKIT-STORE=========================
-import { useDispatch, useSelector } from "react-redux";
-
-import {
-	funMenubarAbsoluteState,
-	// funMenubarSwitch,
-	// funMenubarFlowShow,
-	// funMenubarFlowHide,
-	// funIsVideoWatching,
-	funSwitchMenubar,
-} from "../aplicationFeatures/menubarSlice";
+import React from "react";
 
 // ==============================ICONS=======================================
 import { FiMenu } from "react-icons/fi";
 import { AiFillYoutube } from "react-icons/ai";
 
+// ==============================REDUX-TOOLKIT-STORE=========================
+import { useDispatch, useSelector } from "react-redux";
+
+import { funSwitchMenubar } from "../aplicationFeatures/menubarSlice";
+
+// ==============================LOGOCOMP-COMPONENT============================
+/**
+ * LogoComp component: This component displays the logo of the application, which includes a menu button and the YouTube logo.
+ * Clicking on menubar button its toggles menubars state & size full or small.
+ *
+ * @param {null} null
+ *
+ * @returns {JSX.Element} logo & menu button.
+ */
 export default function LogoComp() {
-	const dispatch = useDispatch();
-	// const menubarFull = useSelector((state) => state.menubarFull);
-	// const menubarFlowShow = useSelector((state) => state.menubarFlowShow);
-	// const menubarFlowHide = useSelector((state) => state.menubarFlowHide);
-	// const isVideoWatching = useSelector((state) => state.isVideoWatching);
-
-	// const {
-	// 	menubarFull,
-	// 	menubarFlowShow,
-	// 	menubarFlowHide,
-	// 	isVideoWatching,
-	// 	menuWidth,
-	// } = useSelector((state) => state.menubar);
-
-	// const [searchParams, setSearchParams] = useSearchParams();
-	// const searchVideo = searchParams?.get("v");
-	// useEffect(() => {
-	// 	if (searchVideo) {
-	// 		dispatch(funIsVideoWatching(true));
-	// 		dispatch(funMenubarFlowHide(true));
-	// 	}
-	// }, []);
-
+	// ====================STORE-DATA-GET-&-SET=============================
 	const { menubarFull, isRelativeState, isAbsoluteState } = useSelector(
 		(state) => state.menubar
 	);
+	const dispatch = useDispatch();
 
-	// const [searchParams, setSearchParams] = useSearchParams();
-	// const searchedValue = searchParams?.get("v");
-	// searchedValue &&
-	// 	dispatch(funMenubarAbsoluteState(true)) &&
-	// 	dispatch(funSwitchMenubar(false));
-	// !searchedValue && isAbsoluteState && dispatch(funSwitchMenubar(false));
-
+	// ====================JSX==============================================
 	return (
 		<div className="d-flex align-items-center gap-2">
 			<button
 				className="btn p-2 fs-4 d-flex align-items-center border- rounded-circle hover-dark-light"
 				onClick={() => {
 					dispatch(funSwitchMenubar(!menubarFull));
-
-					// 	!isVideoWatching
-					// 		? dispatch(funMenubarSwitch(!menubarFull))
-					// 		: menubarFlowHide
-					// 		? dispatch(funMenubarFlowShow(true)) &&
-					// 		  dispatch(funMenubarFlowHide(false))
-					// 		: dispatch(funMenubarFlowHide(true)) &&
-					// 		  dispatch(funMenubarFlowShow(false));
-
-					// 	searchVideo
-					// 		? dispatch(funMenubarFlowShow(true))
-					// 		: dispatch(funMenubarFlowHide(false)) &&
-					// 		  dispatch(funMenubarFlowShow(false)) &&
-					// 		  dispatch(funIsVideoWatching(false)) &&
-					// 		  dispatch(funMenubarSwitch(!menubarFull));
-
-					// 	// ===============================
-					// 	// const menubarContainer = document.querySelector(".menubar-container");
-					// 	// menubarContainer?.classList.toggle("menubar-small");
 				}}
 			>
 				<FiMenu />

@@ -1,77 +1,43 @@
+// ==============================HOOKS======================================
 import React, { useEffect, useMemo, useState } from "react";
 import PropTypes from "prop-types";
+
+// ==============================ICONS=========================================
+import { PiUserCircle } from "react-icons/pi";
+import { TbDotsVertical } from "react-icons/tb";
+
+// ==============================COMPONENTS====================================
+import { formatTitle, formatDate, formatNumber } from "./coreJsUtils";
+
+// ==============================CONSTANTS=====================================
+import { API_KEY } from "../constants/constants";
 
 // ==============================REACT-REDUX-TOOLKIT===========================
 import { useDispatch, useSelector } from "react-redux";
 import {
-	// funMenubarSwitch,
-	// funMenubarFlowShow,
-	// funMenubarFlowHide,
-	// funIsVideoWatching,
-
 	funMenubarRelativeState,
 	funMenubarAbsoluteState,
 	funSwitchMenubar,
 	funMenubarSwitchHandler,
 } from "../Components/aplicationFeatures/menubarSlice";
 
-// ==============================REACT-ROUTER-DOM============================
-import { NavLink } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+// ==============================REACT-ROUTER-DOM==============================
+import { NavLink, useNavigate } from "react-router-dom";
 
-// ==============================ICONS=======================================
-import { PiUserCircle } from "react-icons/pi";
-import { TbDotsVertical } from "react-icons/tb";
+// ==============================REUSABLE-COMPONENTS===========================
 
-// ==============================CONSTANTS=====================================
-import { API_KEY } from "../constants/constants";
+// ==============================THEMECHANGE-COMPONENT=========================
 
-// ==============================JavaScript-FUNCTIONS==========================
-// ==============================DATE-FORMATER=================================
-const formatDate = function (date, locale) {
-	const calcDaysPassed = (oldDate, newDate) =>
-		Math.round(Math.abs(newDate - oldDate) / (1000 * 60 * 60 * 24));
+/**
+ * This component allows users to switch between light and dark themes.
+ * It uses the useState hook to store the current theme and updates the
+ * document's data-bs-theme attribute accordingly.
+ * @param {null} null
+ * @returns {JSX.Element} A button that toggles the theme when clicked.
 
-	const daysPassed = calcDaysPassed(new Date(date), new Date());
-
-	if (daysPassed === 0) return "Today";
-	if (daysPassed === 1) return "Yesterday";
-	if (daysPassed <= 7) return `${daysPassed} Days ago`;
-	if (daysPassed <= 28) return `${daysPassed / 7} Weeks ago`;
-	else {
-		// return new Intl.DateTimeFormat(locale, {
-		// 	year: "numeric",
-		// 	month: "short",
-		// 	day: "2-digit",
-		// }).format(new Date(date));
-
-		const newDate = new Date(date);
-		return newDate.toLocaleDateString("US", {
-			year: "numeric",
-			month: "short",
-			day: "2-digit",
-		});
-	}
-};
-
-// ==============================NUMBER-FORMATER=========================
-const formatNumber = function (num) {
-	if (num <= 999) return num;
-	if (num <= 999999) return Math.round(num / 1000) + "K ";
-	if (num > 999999) return Math.round(num / 1000000) + "M ";
-};
-
-// ==============================VIDEOS-TITLE-FORMATER=========================
-const formatTitle = (title) =>
-	title.length <= 70 ? title : title.slice(0, 67) + "...";
-
-// ==============================RANDOM-NUMBER-GENERATOR=======================
-const RandomNumber = ({ digits = 99999 }) =>
-	Math.trunc(Math.random() * digits) + 1;
-
-// ==============================COMPONENTS==================================
-// ==============================ThemeChange=================================
+ */
 function ThemeChange() {
+	// ====================STATES===========================================
 	const [theme, setTheme] = useState("dark");
 	document.documentElement.setAttribute("data-bs-theme", theme);
 
@@ -79,6 +45,7 @@ function ThemeChange() {
 		setTheme(theme === "light" ? "dark" : "light");
 	};
 
+	// ====================JSX==============================================
 	return (
 		<div>
 			<button className="btn btn-primary" onClick={toggleTheme}>
@@ -88,47 +55,53 @@ function ThemeChange() {
 	);
 }
 
-// ==============================MenuListContainer===========================
+// ==============================MENULISTCONTAINER-COMPONENT===================
+/**
+ * This component simplifies the rendering of a menu list container.
+ * It takes an array of tabs as a prop and returns a JSX element representing the menu list.
+ * The menu list is rendered as an unordered list with each tab item as a list item.
+ * @param {object[]} tabsArr - An array of tab objects, each containing a tab icon and a tab name.
+ * @returns {JSX.Element} A JSX element representing the container of menu lists.
+ */
 const MenuListContainer = function ({ tabsArr }) {
-	const menubarShow = true;
-
 	// =====SEFETY=====
 	MenuListContainer.propTypes = {
 		tabsArr: PropTypes.array.isRequired,
 	};
 	if (typeof tabsArr !== "object") return;
 
+	// ====================JSX==============================================
 	return (
 		<>
 			{tabsArr ? (
 				<ul className="menubar-items-boxs nav nav-pills flex-column border-bottom border-secondary px-2 py-2">
 					{tabsArr?.map((tab) => {
-						const [tabIcon, tabName] = menubarShow
-							? [tab[0], tab[1]]
-							: [tab[0], null];
+						const [tabIcon, tabName] = tab;
 
 						return (
-							<MenuListItem key={tab[1]} tabIcon={tabIcon} tabName={tabName} />
+							<MenuListItem key={tabName} tabIcon={tabIcon} tabName={tabName} />
 						);
 					})}
 				</ul>
 			) : (
-				console.log(tabsArr)
+				(null, console.log(tabsArr))
 			)}
 		</>
 	);
 };
 
-// ==============================MenuListItem================================
+// ==============================MENULISTITEM_COMPONENT========================
+/**
+ * This component simplify return menu list item
+ * @param {object} param0 Provide react icon as a props.
+ * @param {string} param1 Provide tab name as a props.
+ * @returns {JSX.Element} Return Jsx Element : html list tag inside anchor tag including react icon & tab name
+ */
 const MenuListItem = function ({ tabIcon, tabName }) {
+	// ====================STORE-DATA-GET-&-SET=============================
 	const dispatch = useDispatch();
-	// 	==================Higher order function create======================
-	// const utilMenubarHide = function () {
-	// 	dispatch(funIsVideoWatching(false));
-	// 	dispatch(funMenubarFlowHide(false));
-	// 	dispatch(funMenubarFlowShow(false));
-	// };
 
+	// ====================JSX==============================================
 	return (
 		<li className="nav-item w-100">
 			<NavLink
@@ -146,8 +119,13 @@ const MenuListItem = function ({ tabIcon, tabName }) {
 	);
 };
 
-// ==============================SignInBtn===================================
+// ==============================SIGNINBTN-COMPONENT===========================
+/**
+ * @param {null} null
+ * @returns {React.JSX.Element} Return Sign button
+ */
 const SignInBtn = function () {
+	// ====================JSX==============================================
 	return (
 		<button className="btn btn-outline-dark border d-flex align-items-center gap-1 rounded-pill ms-3 py-1 text-primary fw-bold">
 			<PiUserCircle className="fs-3" /> Sign in
@@ -155,18 +133,24 @@ const SignInBtn = function () {
 	);
 };
 
-// ======================================================================= //
+// ==============================THUMBNAILS-COMPONENT==========================
 
+/**
+ * This component simplify return YouTube home page thumbnails UI
+ * @param {{ video: object; }} param0 Provide single array of video Id & snippet
+ * @param {string} param.video0 id:videoId
+ * @param {object} param.video1 object of video snippet
+ * @returns {React.JSX.Element} Return full thumbnails UI
+ */
 const Thumbnails = function ({ video }) {
-	// const menubarFull = useSelector((state) => state.menubarFull);
-
-	const { menubarFull, isRelativeState, isAbsoluteState } = useSelector(
-		(state) => state.menubar
-	);
-	const dispatch = useDispatch();
 	// if (!video) return;
-	const { id: videoId, snippet } = video;
 
+	// ====================STATES===========================================
+	// const [contentDetails, setContentDetails] = useState({});
+	const [channelSnippet, setChannelSnippet] = useState({});
+	const [channelData, setChannelData] = useState({});
+
+	const { id: videoId, snippet } = video;
 	const {
 		categoryId,
 		channelId,
@@ -180,25 +164,23 @@ const Thumbnails = function ({ video }) {
 
 	const locale = navigator.language;
 
-	// 	=====================================================
-	// const [contentDetails, setContentDetails] = useState({});
-	const [channelSnippet, setChannelSnippet] = useState({});
-	// const [statistics, setStatistics] = useState({});
-	const [channelData, setChannelData] = useState({});
-
 	const CHANNEL_URL = `https://youtube.googleapis.com/youtube/v3/channels?part=snippet%2CcontentDetails%2Cstatistics&id=${channelId}&key=${API_KEY}`;
 
-	// ==================DATA FETCH=================================
+	// ====================STORE-DATA-GET-&-SET=============================
+	const { menubarFull, isRelativeState, isAbsoluteState } = useSelector(
+		(state) => state.menubar
+	);
+	const { isLoading } = useSelector((state) => state.globalUtility);
+
+	// ====================FETCHING-CHANNEL-DATA============================
 	const fetchChannelData = async (api) => {
 		try {
 			const response = await fetch(api);
-			// console.log(typeof response, ":", response, "asyncronus fetch");
 			const data = await response.json();
 
 			setChannelData(data);
 			// setContentDetails(data.items[0].contentDetails);
 			setChannelSnippet(data.items[0].snippet);
-			// setStatistics(data.items[0].statistics);
 		} catch (error) {
 			console.error("Error fetching data", error);
 		}
@@ -206,39 +188,20 @@ const Thumbnails = function ({ video }) {
 
 	useEffect(() => {
 		fetchChannelData(CHANNEL_URL);
-	}, []);
+	}, [CHANNEL_URL]);
 
-	// 	==================Higher order function create======================
-	// const utilMenubarHide = function () {
-	// dispatch(funIsVideoWatching(true));
-	// dispatch(funMenubarFlowHide(true));
-	// dispatch(funMenubarFlowShow(false));
-	// dispatch(funMenubarSwitch(true));
-
-	// dispatch(funMenubarRelativeState(false));
-	// dispatch(funMenubarAbsoluteState(true));
-	// dispatch(funSwitchMenubar(false));
-	// };
-
+	// ====================JSX==============================================
 	return (
 		<div className="thumbnail-container bg-warning">
 			<figure className="d-flex flex-column gap-3 m-0">
 				<div
-					// className="thumbnail-img-box w-100 rounded-4  overflow-hidden"
-					// style={
-					// 	isRelativeState && menubarFull
-					// 		? { height: "11rem" }
-					// 		: { height: "13rem" }
-					// }
-
 					className={`thumbnail-img-box w-100 rounded-4  overflow-hidden ${
 						isRelativeState && menubarFull ? "height-small" : "height-full"
 					}`}
 				>
 					<NavLink
 						to={`/watch?v=${videoId}`}
-						className={`loading-animation`}
-						// onClick={utilMenubarHide}
+						className={isLoading ? `loading-animation` : ""}
 					>
 						<img
 							src={thumbnails?.standard?.url}
@@ -251,7 +214,9 @@ const Thumbnails = function ({ video }) {
 				<figcaption className="thumbnail-text-box figure-caption d-flex gap-2">
 					<a
 						href=""
-						className="channel-img-box rounded-circle loading-animation"
+						className={`channel-img-box rounded-circle overflow-hidden ${
+							isLoading ? "loading-animation" : ""
+						}`}
 					>
 						<img
 							className="channel-img d-block w-100 h-100 object-fit-cover rounded-circle"
@@ -263,12 +228,17 @@ const Thumbnails = function ({ video }) {
 					<div className="thumnail-details w-100 bg-danger">
 						<NavLink
 							to={`/watch?v=${videoId}`}
-							// onClick={utilMenubarHide}
-							className="card-title text-light fs-6 h-50 text-decoration-none d-block bg-black lh-base overflow-hidden loading-animation"
+							className={`card-title text-light fs-6 h-50 text-decoration-none d-block bg-black lh-base overflow-hidden ${
+								isLoading ? "loading-animation" : ""
+							}`}
 						>
 							{formatTitle(videoTitle)}
 						</NavLink>
-						<div className="card-text text-body-secondary loading-animation">
+						<div
+							className={`card-text text-body-secondary ${
+								isLoading ? "loading-animation" : ""
+							}`}
+						>
 							<p className="mb-0 text-capitalize">{channelTitle}</p>
 							<div className="d-flex align-items-center gap-1">
 								<span className="me-2">
@@ -289,17 +259,5 @@ const Thumbnails = function ({ video }) {
 	);
 };
 
-// ======================================================================= //
-// ==============================COMPONENTS-EXPORTS======================= //
-export {
-	formatDate,
-	formatNumber,
-	formatTitle,
-	ThemeChange,
-	MenuListContainer,
-	MenuListItem,
-	SignInBtn,
-	RandomNumber,
-	Thumbnails,
-};
-// ======================================================================= //
+// ==============================COMPONENTS-EXPORTS============================
+export { ThemeChange, MenuListContainer, MenuListItem, SignInBtn, Thumbnails };

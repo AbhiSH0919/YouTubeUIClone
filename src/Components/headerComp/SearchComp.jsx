@@ -4,7 +4,16 @@ import React from "react";
 import { CiSearch } from "react-icons/ci";
 import { MdKeyboardVoice } from "react-icons/md";
 
+// ==============================SEARCHCOMP-COMPONENT==========================
+/**
+ * SearchComp component: This component displays the search bar type anything inside to search video Also including voice search.
+ *
+ * @param {null} null
+ *
+ * @returns {JSX.Element} Search bar and voice search button.
+ */
 export default function SearchComp() {
+	// ====================JSX==============================================
 	return (
 		<div className="d-flex align-items-cente gap-3 col-6 ms-5">
 			<form

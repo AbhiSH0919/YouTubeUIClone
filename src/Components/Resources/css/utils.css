@@ -85,6 +85,7 @@
 	left: 0;
 	z-index: 1;
 	background-color: #222;
+	border-radius: inherit;
 }
 
 .loading-animation::after {
@@ -97,9 +98,14 @@
 @keyframes loading {
 	0% {
 		background-position: -15rem;
+		/* opacity: 0; */
 	}
 
+	50% {
+		/* opacity: 1; */
+	}
 	100% {
 		background-position: 15rem;
+		/* opacity: 0; */
 	}
 }

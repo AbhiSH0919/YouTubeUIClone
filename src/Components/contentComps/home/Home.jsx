@@ -1,7 +1,13 @@
 import React, { useEffect, useState } from "react";
+
+// ==============================COMPONENTS====================================
 import { Thumbnails } from "../../../utility/Utility";
 import QuickTabs from "./QuickTabs";
-import { JSON_DATA } from "../../../constants/constants";
+
+// ==============================CONSTANTS=====================================
+import { API_KEY } from "../../../constants/constants";
+
+// ==============================REACT-REDUX-TOOLKIT===========================
 import { useDispatch, useSelector } from "react-redux";
 import {
 	funMenubarAbsoluteState,
@@ -9,30 +15,35 @@ import {
 	funMenubarSwitchHandler,
 	funSwitchMenubar,
 } from "../../aplicationFeatures/menubarSlice";
+import { funLoadingHandler } from "../../aplicationFeatures/globalUtilitySlice";
+
+// ==============================REACT-ROUTER-DOM==============================
 import { useSearchParams } from "react-router-dom";
 
+// ==============================HOME-COMPONENT================================
+/**
+ * Home component that displays a list of YouTube videos.
+ * This component fetches data from the YouTube API and renders a list of video thumbnails.
+ * @param {null} null
+ * @returns {JSX.Element} The Home component.
+ */
 export default function Home() {
-	const API_KEY = "AIzaSyDa_GO4m-VwQlA8fjp6uf7npNpYmHsGQk8";
-
 	const API_URL = `https://www.googleapis.com/youtube/v3/videos?part=snippet&chart=mostPopular&regionCode=IN&maxResults=8&key=${API_KEY}`;
 
-	// https://www.googleapis.com/youtube/v3/videos?part=snippet&chart=mostPopular&regionCode=IN&maxResults=12&key=AIzaSyDa_GO4m-VwQlA8fjp6uf7npNpYmHsGQk8
-
-	// =================================================================
-
+	// ====================STATES===========================================
 	const [apiData, setApiData] = useState({});
-
 	const [nextPageToken, setNextPageToken] = useState("");
 	const [videos, setVideos] = useState(objData?.items);
 	const [pageInfo, setPageInfo] = useState({});
-	const [channelData, setChannelData] = useState({});
 
 	const [searchParams, setSearchParams] = useSearchParams();
 	const searchedValue = searchParams?.get("v");
-	// const isVideoWatching = useSelector((state) => state.menubar.isVideoWatching);
+
+	// ====================STORE-DATA-GET-&-SET=============================
 	const { menubarFull, isRelativeState, isAbsoluteState } = useSelector(
 		(state) => state.menubar
 	);
+	const { isLoading } = useSelector((state) => state.globalUtility);
 	const dispatch = useDispatch();
 
 	useEffect(() => {
@@ -41,6 +52,7 @@ export default function Home() {
 			dispatch(funMenubarSwitchHandler(false));
 	}, [isAbsoluteState]);
 
+	// ====================FETCHING-HOMEPAGE-DATA===========================
 	const fetchData = async (api) => {
 		try {
 			const response = await fetch(api);
@@ -59,26 +71,25 @@ export default function Home() {
 			setNextPageToken(data?.nextPageToken);
 			setVideos(data?.items);
 			setPageInfo(data?.pageInfo);
-			// console.log(nextPageToken, pageInfo);
 		} catch (error) {
-			// console.log(videos);
 			console.error("Error fetching data", error);
+		} finally {
+			dispatch(funLoadingHandler(false));
 		}
 	};
 
 	useEffect(() => {
 		fetchData(API_URL);
-	}, []);
+		dispatch(funLoadingHandler(true));
+	}, []); // InitCall
 
-	// =================================================================
-
+	// ====================JSX==============================================
 	return (
 		<div className="home-container gridHome position-relative w-100 row-gap-4">
 			<QuickTabs />
 
 			<div
 				className={`headerPlace column-gap-3 row-gap-5 px-2 pb-4 bg-danger-subtle ${
-					// isVideoWatching ? "grid-cols--auto" : "grid-cols--3"
 					isAbsoluteState ? "grid-cols--auto" : "grid-cols--3"
 				}`}
 			>
@@ -565,70 +576,6 @@ const objData = {
 						"We add an egg to the cabbage to make this delicious recipe. We use some fresh vegetables and cabbage, mix them together, and cook them in a big hot vessel. This is the trending omelet recipe for those who want to try new recipes.",
 				},
 				defaultAudioLanguage: "en-US",
-			},
-		},
-		{
-			kind: "youtube#video",
-			etag: "UUcsJMrSFE4ORIhk0TzujStZGeg",
-			id: "x8YP-rk8w2Y",
-			snippet: {
-				publishedAt: "2024-07-25T06:47:42Z",
-				channelId: "UCebC4x5l2-PQxg46Ucv9CsA",
-				title:
-					"We Opened 100 Mystery Boxes Worth ₹30,00,000 With JCB | आज तो लॉटरी लग गई🤑",
-				description:
-					"Sign-up on Hibox through my link within next 24 hours and get 100rs instant cashback on your first purchase.\n\nhttps://share.hibox.com.in/down/app?recommender=634891\n\nReferral ID - 634891\n\nHibox app allows you to win prizes by opening mystery boxes. Each box contains a random prize, and you never know what you might get! \n\nIf you are not satisfied with the drawn item you can always resell your item back on Hibox app in few clicks for guaranteed profits.\n\nYou can download the HIBOX app through\n\nPlay Store - https://play.google.com/store/apps/details?id=com.hibox.in&hl=en&gl=US\n\nApp Store - https://apps.apple.com/in/app/hibox-resell-earn-100-win/id6451296518\n\nFollow Hibox on Instagram 🔥 - https://www.instagram.com/hibox_in?igsh=aDZ3ZDgzaW00MWRz\n\nJoin Hibox's Official telegram group for daily updates and tips\n\nLink - https://t.me/hiboxin\n\nOur Unboxing Channel- https://www.youtube.com/channel/UCIcKN-VXhkZNpf5DRdHp9JA\nOur Shorts Channel- https://www.youtube.com/channel/UC7bZ8U3-WqDzHiyz6Hc6TmA\nFollow Me on Instagram- https://www.instagram.com/amit.yt/\nFollow Us On Facebook- https://www.facebook.com/CrazyXYZfb/",
-				thumbnails: {
-					default: {
-						url: "https://i.ytimg.com/vi/x8YP-rk8w2Y/default.jpg",
-						width: 120,
-						height: 90,
-					},
-					medium: {
-						url: "https://i.ytimg.com/vi/x8YP-rk8w2Y/mqdefault.jpg",
-						width: 320,
-						height: 180,
-					},
-					high: {
-						url: "https://i.ytimg.com/vi/x8YP-rk8w2Y/hqdefault.jpg",
-						width: 480,
-						height: 360,
-					},
-					standard: {
-						url: "https://i.ytimg.com/vi/x8YP-rk8w2Y/sddefault.jpg",
-						width: 640,
-						height: 480,
-					},
-					maxres: {
-						url: "https://i.ytimg.com/vi/x8YP-rk8w2Y/maxresdefault.jpg",
-						width: 1280,
-						height: 720,
-					},
-				},
-				channelTitle: "Crazy XYZ",
-				tags: [
-					"100 mystery box",
-					"crazy xyz 100 mystery box",
-					"unboxing 100 mystery box",
-					"100 mystery box open",
-					"worth rupees 30 lacs",
-					"30 lac rupees mystery box",
-					"crayz xyz best mystery box",
-					"hibox",
-					"hibox mystery box",
-					"crazy xyz",
-					"the indian unboxer",
-					"tiu",
-				],
-				categoryId: "28",
-				liveBroadcastContent: "none",
-				localized: {
-					title:
-						"We Opened 100 Mystery Boxes Worth ₹30,00,000 With JCB | आज तो लॉटरी लग गई🤑",
-					description:
-						"Sign-up on Hibox through my link within next 24 hours and get 100rs instant cashback on your first purchase.\n\nhttps://share.hibox.com.in/down/app?recommender=634891\n\nReferral ID - 634891\n\nHibox app allows you to win prizes by opening mystery boxes. Each box contains a random prize, and you never know what you might get! \n\nIf you are not satisfied with the drawn item you can always resell your item back on Hibox app in few clicks for guaranteed profits.\n\nYou can download the HIBOX app through\n\nPlay Store - https://play.google.com/store/apps/details?id=com.hibox.in&hl=en&gl=US\n\nApp Store - https://apps.apple.com/in/app/hibox-resell-earn-100-win/id6451296518\n\nFollow Hibox on Instagram 🔥 - https://www.instagram.com/hibox_in?igsh=aDZ3ZDgzaW00MWRz\n\nJoin Hibox's Official telegram group for daily updates and tips\n\nLink - https://t.me/hiboxin\n\nOur Unboxing Channel- https://www.youtube.com/channel/UCIcKN-VXhkZNpf5DRdHp9JA\nOur Shorts Channel- https://www.youtube.com/channel/UC7bZ8U3-WqDzHiyz6Hc6TmA\nFollow Me on Instagram- https://www.instagram.com/amit.yt/\nFollow Us On Facebook- https://www.facebook.com/CrazyXYZfb/",
-				},
-				defaultAudioLanguage: "hi",
 			},
 		},
 		{

@@ -14,7 +14,14 @@ import { PiShareFatFill } from "react-icons/pi";
 import { HiOutlineDotsVertical } from "react-icons/hi";
 import { IoMdPause } from "react-icons/io";
 
+// ==============================SHORTS-COMPONENT==============================
+/**
+ * Shorts component: A React component that displays a short video with controls and features.
+ * @param {null} null
+ * @returns {JSX.Element} The JSX element representing the Shorts component.
+ */
 export default function Shorts() {
+	// ====================SHORTS-EVENT-FUNCTION============================
 	const toggleContent = function (e) {
 		const shortTextBox = document.querySelector(".thumbnail-text-box");
 		e
@@ -29,11 +36,11 @@ export default function Shorts() {
 			: shortPreview.classList.add("hide-content");
 	};
 
+	// ====================JSX==============================================
 	return (
 		<div className="shorts-container position-relative bg-warning w-100 h-100 d-flex justify-content-center align-items-start">
 			<div className="mx-auto p-2 pb-0 mb-2 bg-danger d-flex gap-2">
-				{/* ========================= */}
-
+				{/* =====SHORT-THUMBNAIL-CONTAINER===== */}
 				<div className="short-thumbnail-container card card-cover d-flex flex-column text-bg-dark rounded-4 shadow-lg position-relative">
 					{/* shorts play & sound buttons */}
 					<div className="short-control-box text-white d-flex align-items-center gap-2 mt-3 mb-auto ms-3 z-1">
@@ -158,8 +165,6 @@ export default function Shorts() {
 						/>
 					</a>
 				</div>
-
-				{/* ========================= */}
 			</div>
 
 			{/* =====SHORTS NAVIGATION BUTTON BOX===== */}

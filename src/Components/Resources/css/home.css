@@ -1,10 +1,17 @@
 /* =============QUICK-TABS============= */
-.home-container .quickTabs {
+.home-container .quickTabsContainer {
 	top: 58px;
 	z-index: 9;
 	backface-visibility: hidden;
 }
 
+.quickTabsContainer .quickTabsRow {
+	scroll-behavior: smooth;
+}
+.quickTabsContainer .quickTabsRow::-webkit-scrollbar {
+	width: 0px;
+	height: 0px;
+}
 .quickTabArrow {
 	width: 3.8rem !important;
 	height: 100%;
@@ -32,4 +39,20 @@
 .thumbnail-container .thumbnail-text-box {
 	height: 6.5rem;
 	background-color: #212121;
+}
+
+.relativeMenubarFull
+	~ section
+	.home-container
+	.thumbnail-container
+	.thumbnail-img-box.height-small {
+	height: 11rem;
+}
+
+.relativeMenubarSmall
+	~ section
+	.home-container
+	.thumbnail-container
+	.thumbnail-img-box.height-full {
+	height: 13rem;
 }

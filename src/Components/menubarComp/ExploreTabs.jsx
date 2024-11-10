@@ -10,9 +10,16 @@ import { GoLightBulb } from "react-icons/go";
 import { GiBeard } from "react-icons/gi";
 import { MdOutlinePodcasts } from "react-icons/md";
 
-// ==============================COMPONENTS==================================
+// ==============================COMPONENTS====================================
 import { MenuListContainer } from "../../utility/Utility";
 
+// ==============================EXPLORETABS-COMPONENT=========================
+/**
+ * ExploreTabs component: A React component that renders a list of explore tabs with icons and labels.
+ *
+ * @param {null} null
+ * @returns {JSX.Element} display a list of explore tabs.
+ */
 export default function ExploreTabs() {
 	const exploreTabsArr = [
 		[<PiFireBold />, "Trending"],
@@ -28,6 +35,7 @@ export default function ExploreTabs() {
 		[<MdOutlinePodcasts />, "Podcasts"],
 	];
 
+	// ====================JSX==============================================
 	return (
 		<div className="exploreTabs">
 			<p className="fs-5 fw-medium px-2 pt-3 mx-3 my-0">Explore</p>
